@@ -18,6 +18,7 @@ searchInputEl.addEventListener('blur', function(){
 
 // 오른쪽 배지 부분 
 const bagdeEl = document.querySelector('header .badges');
+const toTopEl = document.querySelector('#to-top');
 
 //window객체는 프로젝트 화면 출력되는 그 자체
 window.addEventListener('scroll', _.throttle(function(){
@@ -30,6 +31,11 @@ window.addEventListener('scroll', _.throttle(function(){
       opacity: 0,
       display : 'none'
     });
+    // 버튼 보이기!
+    gsap.to(toTopEl, 0.2, {
+      x: 0
+    });
+
   }else{
     // 배지 보이기
     // bagdeEl.style.display = 'block';
@@ -37,9 +43,21 @@ window.addEventListener('scroll', _.throttle(function(){
       opacity: 1,
       display : 'block'
     });
+    // 버튼 숨기기
+    gsap.to(toTopEl, 0.2, {
+      x: 100
+    });
   }
 }, 300));
 // _,throttle(함수, 시간)
+
+// 버튼 클릭시 상단으로 스크롤 이동
+
+toTopEl.addEventListener('click', function(){
+  gsap.to(window, 0.7, {
+    scrollTo: 0
+  });
+});
 
 
 // visual 섹션 부분 순차적으로 이미지 나타나게하기
@@ -78,6 +96,19 @@ new Swiper('.promotion .swiper-container', {
     nextEl: '.promotion .swiper-next'
   }
 });
+
+// AWARDS 부분 
+new Swiper('.awards .swiper-container', {
+  autoplay: true,
+  loop: true,
+  spaceBetween: 30,
+  slidesPerView: 5,
+  navigation: {
+    prevEl:'.awards .swiper-prev',
+    nextEl:'.awards .swiper-next'
+  }
+});
+
 
 const promotionEl = document.querySelector('.promotion');
 const promotionToggleBtn = document.querySelector('.toggle-promotion')
@@ -130,3 +161,7 @@ spyEls.forEach(function(spyEl){
     .setClassToggle(spyEl, 'show')
     .addTo(new ScrollMagic.Controller());
 });
+
+
+const thisYear = document.querySelector('.this-year');
+thisYear.textContent = new Date().getFullYear();
